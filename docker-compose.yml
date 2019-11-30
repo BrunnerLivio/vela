@@ -1,0 +1,158 @@
+version: '2'
+services:
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --debug --cleanup --interval 86400
+    restart: unless-stopped
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Zurich
+      - TRANSMISSION_CACHE_SIZE_MB=32
+      - TRANSMISSION_DOWNLOAD_QUEUE_SIZE=10
+      #- TRANSMISSION_SCRIPT_TORRENT_DONE_ENABLED=true
+      #- TRANSMISSION_SCRIPT_TORRENT_DONE_FILENAME=/data/remove.sh
+      - TRANSMISSION_SPEED_LIMIT_UP=200
+      - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
+      - TRANSMISSION_RATIO_LIMIT=0
+      - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+      - TRANSMISSION_RPC_HOST_WHITELIST="*,*.*,*.*.*,*.*.*.*"
+      - TRANSMISSION_UMASK=0
+      - TRANSMISSION_INCOMPLETE_DIR_ENABLED=false
+    volumes:
+      - ./config/transmission:/config
+      - ./watch:/watch
+      - ./download/:/downloads
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    restart: unless-stopped
+
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker:plexpass
+    network_mode: host
+    volumes:
+      - ./config/plex:/config
+      - ./:/media
+      - /tmp:/tmp
+    env_file:
+      - plex.env
+    environment:
+      - TZ=Europe/Zurich
+      - PUID=1000
+      - PGID=1000
+    restart: unless-stopped
+
+  plexpy:
+    container_name: plexpy
+    image: linuxserver/plexpy
+    volumes:
+      - ./config/plexpy:/config
+      - ./config/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
+    environment:
+      - TZ=Europe/Zurich
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=022
+    ports:
+      - "8181:8181"
+    restart: unless-stopped
+
+  radarr:
+    container_name: radarr
+    image: linuxserver/radarr
+    environment:
+      - TZ=Europe/Zurich
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=022
+    volumes:
+      - ./config/radarr:/config
+      - ./download/:/downloads
+      - ./movies:/movies
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "7878:7878"
+    restart: unless-stopped
+
+  lidarr:
+    container_name: lidarr
+    image: linuxserver/lidarr
+    environment:
+      - TZ=Europe/Zurich
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=022
+    volumes:
+      - ./config/lidarr:/config
+      - ./download/:/downloads
+      - ./music:/music
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8686:8686"
+    restart: unless-stopped
+
+  radarr_4k:
+    container_name: radarr-4k
+    image: linuxserver/radarr
+    environment:
+      - TZ=Europe/Zurich
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=022
+    volumes:
+      - ./config/radarr-4k:/config
+      - ./download/:/downloads
+      - ./movies:/movies
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "7879:7878"
+    restart: unless-stopped
+
+  sonarr:
+    container_name: sonarr
+    image: linuxserver/sonarr
+    volumes:
+      - ./config/sonarr:/config
+      - ./download/:/downloads
+      - ./series:/tv
+    environment:
+      - TZ=Europe/Zurich
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=022
+    ports:
+      - "8989:8989"
+    restart: unless-stopped
+
+  jackett:
+    container_name: jackett
+    image: linuxserver/jackett
+    volumes:
+      - ./config/jackett:/config
+      - ./download:/downloads
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "9117:9117"
+    restart: unless-stopped
