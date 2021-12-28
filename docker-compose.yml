@@ -50,11 +50,12 @@ services:
 
   plex:
     container_name: plex
-    image: plexinc/pms-docker:plexpass
+    image: ghcr.io/linuxserver/plex:arm32v7-latest 
     network_mode: host
     volumes:
       - ./config/plex:/config
-      - ./:/media
+      - ./movies:/movies
+      - ./series:/tv
       - /tmp:/tmp
     env_file:
       - plex.env
@@ -62,6 +63,7 @@ services:
       - TZ=Europe/Zurich
       - PUID=1000
       - PGID=1000
+      - VERSION=docker
     restart: unless-stopped
 
   plexpy:
