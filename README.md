@@ -20,6 +20,7 @@ sudo mount -a
 vi /etc/systemd/system/docker-compose-app.service
 
 
+# Add
 [Unit]
 Description=Docker Compose Application Service
 Requires=docker.service
@@ -35,6 +36,10 @@ TimeoutStartSec=0
 
 [Install]
 WantedBy=multi-user.target
+
+
+# Run
+sudo systemctl enable docker-compose-app
 ```
 
 ### Startup Management Server
@@ -45,7 +50,7 @@ cd management-server
 npm i
 vi /etc/systemd/system/node-app.service 
 
-
+# Add
 [Unit]
 After=network.target
 
@@ -59,6 +64,10 @@ TimeoutStartSec=0
 
 [Install]
 WantedBy=multi-user.target
+
+# Run
+sudo systemctl enable node-app
+```
 
 ### Docker commands
 ```bash

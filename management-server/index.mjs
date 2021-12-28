@@ -33,4 +33,14 @@ app.get('/shutdown', (req, res) => {
 });
 
 
+app.get('/downloads/incomplete', (req, res) => {
+  execSync('rm -rf download/incomplete')
+  res.sendStatus(200);
+});
+
+app.get('/downloads/complete', (req, res) => {
+  execSync('rm -rf download/complete')
+  res.sendStatus(200);
+});
+
 app.listen(port, () => console.log(`App listening to port ${port}`));
