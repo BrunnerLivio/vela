@@ -1,7 +1,12 @@
-<h1 class="mdc-typography--headline4">Livios Raspberry Pi</h1>
+<div style="text-align: center;">
+    <h4 class="mdc-typography--headline4">Livios Raspberry Pi</h4>
+    <h6 class="mdc-typography--headline6">IP: {{ ip }}</h6>
+</div>
+
+
 
 <div class="section-cards">
-    <a href="http://192.168.1.18:8989" class="mdc-card mdc-card--outlined">
+    <a href="http://{{ ip }}:8989" class="mdc-card mdc-card--outlined">
         <div class="mdc-card__primary-action">
             <div class="sonarr mdc-card__media mdc-card__media--square">
                 <div class="mdc-card__media-content">
@@ -12,7 +17,7 @@
         </div>
     </a>
 
-    <a href="http://192.168.1.18:7878" class="mdc-card mdc-card--outlined">
+    <a href="http://{{ ip }}:7878" class="mdc-card mdc-card--outlined">
         <div class="mdc-card__primary-action">
             <div class="radarr mdc-card__media mdc-card__media--square">
                 <div class="mdc-card__media-content">
@@ -24,7 +29,7 @@
 
     </a>
 
-    <a href="http://192.168.1.18:8686" class="mdc-card mdc-card--outlined">
+    <a href="http://{{ ip }}:8686" class="mdc-card mdc-card--outlined">
         <div class="mdc-card__primary-action">
             <div class="lidarr mdc-card__media mdc-card__media--square">
                 <div class="mdc-card__media-content">
@@ -36,7 +41,7 @@
 
     </a>
 
-    <a href="http://192.168.1.18:9091" class="mdc-card mdc-card--outlined">
+    <a href="http://{{ ip }}:9091" class="mdc-card mdc-card--outlined">
         <div class="mdc-card__primary-action">
             <div class="transmission mdc-card__media mdc-card__media--square">
                 <div class="mdc-card__media-content">
@@ -49,7 +54,7 @@
 
     </a>
 
-    <a href="http://192.168.1.18:9117" class="mdc-card mdc-card--outlined">
+    <a href="http://{{ ip }}:9117" class="mdc-card mdc-card--outlined">
         <div class="mdc-card__primary-action">
             <div class="jackett mdc-card__media mdc-card__media--square">
                 <div class="mdc-card__media-content">
@@ -66,6 +71,7 @@
 
 <div class="section">
 
+
     <a href="/reboot" class="mdc-button mdc-button--outlined"> <span class="mdc-button__ripple"></span>
         <i class="material-icons mdc-button__icon" aria-hidden="true">restart_alt</i>
         <span class="mdc-button__label">Reboot</span>
@@ -76,7 +82,7 @@
         <span class="mdc-button__label">Shutdown</span>
     </a>
 
-     <a href="/donwloads/complete" class="mdc-button mdc-button--outlined"> <span class="mdc-button__ripple"></span>
+    <a href="/donwloads/complete" class="mdc-button mdc-button--outlined"> <span class="mdc-button__ripple"></span>
         <i class="material-icons mdc-button__icon" aria-hidden="true">power_settings_new</i>
         <span class="mdc-button__label">Remove Complete Downloads</span>
     </a>
