@@ -1,5 +1,5 @@
 # Media-server
-> Automated movies & series download
+
 
 ### Mount media disks
 ```bash
