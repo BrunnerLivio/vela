@@ -134,7 +134,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr
+    image: linuxserver/sonarr:arm32v7-latest
     volumes:
       - ./config/sonarr:/config
       - ./download/:/downloads
