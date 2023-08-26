@@ -27,7 +27,7 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Type=oneshot
+Type=simple
 RemainAfterExit=yes
 WorkingDirectory=<INSTALLATION_DIR>
 ExecStart=/usr/local/bin/docker-compose up -d
@@ -40,33 +40,6 @@ WantedBy=multi-user.target
 
 # Run
 sudo systemctl enable docker-compose-app
-```
-
-### Startup Management Server
-
-```bash
-# Install Node v16
-cd management-server
-npm i
-vi /etc/systemd/system/node-app.service 
-
-# Add
-[Unit]
-After=network.target
-
-[Service]
-Type=oneshot
-User=root
-RemainAfterExit=yes
-WorkingDirectory=<INSTALLATION_DIR>/management-server/
-ExecStart=<PATH_TO_NODE>/bin/node <INSTALLATION_DIR>/management-server/index.mjs
-TimeoutStartSec=0
-
-[Install]
-WantedBy=multi-user.target
-
-# Run
-sudo systemctl enable node-app
 ```
 
 ### Docker commands

@@ -66,20 +66,20 @@ services:
       - VERSION=docker
     restart: unless-stopped
 
-  plexpy:
-    container_name: plexpy
-    image: linuxserver/plexpy
-    volumes:
-      - ./config/plexpy:/config
-      - ./config/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
-    environment:
-      - TZ=Europe/Zurich
-      - PUID=1000
-      - PGID=1000
-      - UMASK_SET=022
-    ports:
-      - "8181:8181"
-    restart: unless-stopped
+     # plexpy:
+     #   container_name: plexpy
+     #   image: linuxserver/plexpy
+     #   volumes:
+     #     - ./config/plexpy:/config
+     #     - ./config/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
+     #   environment:
+     #     - TZ=Europe/Zurich
+     #     - PUID=1000
+     #     - PGID=1000
+     #     - UMASK_SET=022
+     #   ports:
+     #     - "8181:8181"
+     #   restart: unless-stopped
 
   radarr:
     container_name: radarr
@@ -158,3 +158,14 @@ services:
     ports:
       - "9117:9117"
     restart: unless-stopped
+
+  homer:
+    container_name: homer
+    image: b4bz/homer
+    volumes:
+      - ./homer/assets:/www/assets
+    ports:
+      - "80:8080"
+    restart: unless-stopped
+    environment:
+      - INIT_ASSETS=1
