@@ -50,15 +50,15 @@ services:
 
   plex:
     container_name: plex
-    image: ghcr.io/linuxserver/plex:arm32v7-latest 
+    image: ghcr.io/linuxserver/plex:arm64v8-1.32.7 
     network_mode: host
     volumes:
       - ./config/plex:/config
       - ./movies:/movies
       - ./series:/tv
       - /tmp:/tmp
-    env_file:
-      - plex.env
+        #env_file:
+        #- plex.env
     environment:
       - TZ=Europe/Zurich
       - PUID=1000
@@ -134,7 +134,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr:arm32v7-latest
+    image: linuxserver/sonarr:arm64v8-3.0.10
     volumes:
       - ./config/sonarr:/config
       - ./download/:/downloads
@@ -169,3 +169,53 @@ services:
     restart: unless-stopped
     environment:
       - INIT_ASSETS=1
+
+
+  ## MONITORING
+  cadvisor:
+    image: zcube/cadvisor:v0.45.0
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    expose:
+      - 8080
+    ports:
+      - "8005:8080"
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:v2.48.0
+    container_name: prometheus
+    volumes:
+      - ./config/prometheus:/etc/prometheus/
+      - prometheus-data:/prometheus
+    ports:
+      - 9090:9090
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+
+volumes:
+  prometheus-data: {}
+  grafana-data: {}
+
+networks:
+  monitoring:
+    driver: bridge
