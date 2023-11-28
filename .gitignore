@@ -3,6 +3,11 @@ music
 movies
 download
 watch
-config
 plex.env
 node_modules
+
+config/*
+!config/prometheus
+!config/jackett/Jackett/Indexers/*.json
+!config/transmission/settings.json
+
